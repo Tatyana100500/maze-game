@@ -4,21 +4,14 @@ const testUser = { name: 'Sofia', password: '54321'}
 
 const LoginForm = (props) => {
 	
-	const {navigation} = props;
-    const {navigate, getState} = navigation;
-	console.log(props);
-  //const [value, setValue] = useState(0);
+  const {navigation} = props;
+  const {navigate} = navigation;
   const [error, setError] = useState(null);
   const [userLogin, setLogin] = useState('');
   const [userPassword, setPassword] = useState('');
-  //const AuthContext = React.createContext({});
-  //const { signIn } = React.useContext(AuthContext);
-//console.log(React.useContext(AuthContext))
-  //
+  
   const handleSubmit = () => {
 	if(userLogin === testUser.name && userPassword === testUser.password) {
-	  //signIn({ userLogin, userPassword })
-	  //localStorage.setItem('isLogin', true);
 	  navigate('PostsList');
 	  setError(null)
 	} else {
@@ -30,7 +23,7 @@ const LoginForm = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.formLabel}> Login Form </Text>
-	  <Text>{error ? error : ''}</Text>
+	  <Text style={styles.error}>{error ? error : ''}</Text>
       <View>
         <TextInput 
 		placeholder="Enter Login" 
@@ -81,6 +74,10 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 20,
+  },
+  error: {
+    color: 'red',
+    fontSize: 22,
   },
 });
 

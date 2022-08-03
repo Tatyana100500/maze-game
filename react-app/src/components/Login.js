@@ -1,14 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import FormContainer from './FormContainer';
-//import { useAuth } from '../hooks/index.js';
+
 const testUser = { name: 'Sofia', password: '54321'}
   
   const Login = () => {
-	//const auth = useAuth();
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 	const nameRef = useRef();
@@ -20,36 +18,7 @@ const testUser = { name: 'Sofia', password: '54321'}
 	  } else {
 		setError('Неверный логин или пароль')
 	  }
-	  //const url = 'https://jsonplaceholder.typicode.com/users';
-	  /*setError(null);
-	  try {
-		const res = await axios.get(url, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			data: {}
-		});
-		console.log('!!!', res.data)
-		//localStorage.setItem('isLogin', res.data.success);
-		//localStorage.setItem('token', res.data.token);
-	    //localStorage.setItem('currentAccount', res.data.data.id);
-		//navigate('/account');
-	  } catch (e) {
-		console.log(e)
-		if (e.isAxiosError && e.response && e.response.status === 401) {
-		  setError('authFailed');
-		  nameRef.current.select();
-		} else if (e.isAxiosError && e.response && e.response.status === 404) {
-		  setError('Account not found');
-		  nameRef.current.select();
-		} else if (e.isAxiosError && e.message === 'Network Error') {
-		  setError('netError');
-		} else {
-		  setError('unknown');
-		  console.error(e);
-		}*/
 		setSubmitting(false);
-	  //}
 	};
   
 	const formik = useFormik({

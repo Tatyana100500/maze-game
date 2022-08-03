@@ -13,6 +13,23 @@ code {
 }
 
 .container{
-	background-color: lightgrey;
 	display: grid;
+}
+.name {
+	font: 1.2em sans-serif;
+	display:inline;
+	padding: 10px;
+}
+.company {
+	font: 0.7em sans-serif;
+	display:inline;
+	padding: 10px;
+}
+.photo {
+	display:inline-flex;
+}
+.title {
+	font: 1.2em sans-serif;
+	font-weight: bold;
+	text-align: center;
 }

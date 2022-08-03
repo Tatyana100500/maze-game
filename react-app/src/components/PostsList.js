@@ -1,5 +1,4 @@
 import React, { useEffect, useState, } from 'react'
-//import api from '../api'
 import axios from 'axios';
 
 import styled from 'styled-components'
@@ -12,9 +11,8 @@ const PostsList = () => {
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
   const [photos, setPhotos] = useState([])
-  //const [isLoading, setisLoading] = useState(false)
   const isLogin = localStorage.getItem('isLogin')
-  console.log(isLogin)
+ 
   useEffect(() => {
 	const fetchData = async () => {
 	  await axios.get('https://jsonplaceholder.typicode.com/posts').then(posts => {
@@ -24,13 +22,11 @@ const PostsList = () => {
 		setUsers(users.data) 
       }).catch(e => console.log(e))
 	  await axios.get('https://jsonplaceholder.typicode.com/photos').then(photos => {
-		//console.log(photos.data)
 		setPhotos(photos.data) 
-      }).catch(e => console.log("????", e))
+      }).catch(e => console.log(e))
     };
     fetchData();
   }, [isLogin])
-  console.log(posts, users, photos)
   let sortedPosts = posts.reduce((acc, post) => {
     if (acc.map[post.userId]) {
       return acc;
@@ -40,7 +36,6 @@ const PostsList = () => {
 	const userPhotos = photos.filter((photo) => post.userId === photo.albumId);
 	if(postUser) {
 	const { company, name } = postUser;
-	//console.log(userPhotos)
 	
     acc.newPosts.push({...post, userName: name, company: company.name, userPhotos });
 	} else {
@@ -50,8 +45,6 @@ const PostsList = () => {
   }, { map: {}, newPosts: [] })
   .newPosts;
 
-console.log(sortedPosts);
-
     return (
 	  <div className="container">
 		<div className="list-group">
@@ -59,10 +52,11 @@ console.log(sortedPosts);
 			
 		  return (
 	          <a href="#"  key={id} className="list-group-item list-group-item-action list-group-item-light mb-3 rounded border border-secondary">
-				{(userPhotos && userPhotos.length != 0) ? (<Image className='rounded' src={`${userPhotos[0].thumbnailUrl}`}></Image>): null}
-				<div className="text-dark" >{userName}<span className="strong m-1">{company}</span></div>
-		        <div className="text-bold" >{title}</div>
-				<div className="text-dark" >{body}</div>
+				{(userPhotos && userPhotos.length != 0) ? (<Image className='photo' src={`${userPhotos[0].thumbnailUrl}`}></Image>): null}
+				<div className="post name" >{userName}</div>
+				<div className="post company">{company}</div>
+		        <div className="post title" >{title}</div>
+				<div className="post body" >{body}</div>
 		      </a>
 		  )
 	      }))

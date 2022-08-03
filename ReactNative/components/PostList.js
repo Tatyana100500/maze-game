@@ -1,39 +1,26 @@
 import React, { useEffect, useState, } from 'react'
-//import api from '../api'
 import axios from 'axios';
-import {Text, StyleSheet, ScrollView, View, FlatList} from 'react-native';
-
-//import styled from 'styled-components'
-//const Image = styled.img`
-///  width: 150px;
-//  height: 150px;
-//`
+import {Text, StyleSheet, View, FlatList} from 'react-native';
 
 const PostsList = () => {
   const [posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
   const [photos, setPhotos] = useState([])
-  //const [isLoading, setisLoading] = useState(false)
-  //const isLogin = localStorage.getItem('isLogin')
-  //console.log(isLogin)
+  
   useEffect(() => {
 	const fetchData = async () => {
 	  await axios.get('https://jsonplaceholder.typicode.com/posts').then(posts => {
-		//console.log(posts.data)
 		setPosts(posts.data) 
       }).catch(e => console.log(e)).then()
 	  await axios.get('https://jsonplaceholder.typicode.com/users').then(users => {
-		//console.log(users.data)
 		setUsers(users.data) 
       }).catch(e => console.log(e))
 	  await axios.get('https://jsonplaceholder.typicode.com/photos').then(photos => {
-		//console.log(photos.data)
 		setPhotos(photos.data) 
-      }).catch(e => console.log("????", e))
+      }).catch(e => console.log(e))
     };
     fetchData();
   }, [])
-  //console.log(posts, users, photos)
   let sortedPosts = posts.reduce((acc, post) => {
     if (acc.map[post.userId]) {
       return acc;
@@ -43,8 +30,6 @@ const PostsList = () => {
 	const userPhotos = photos.filter((photo) => post.userId === photo.albumId);
 	if(postUser) {
 	const { company, name } = postUser;
-	//console.log(userPhotos)
-	
     acc.newPosts.push({...post, userName: name, company: company.name, userPhotos });
 	} else {
     acc.newPosts.push(post);
@@ -53,23 +38,18 @@ const PostsList = () => {
   }, { map: {}, newPosts: [] })
   .newPosts;
 
-console.log(sortedPosts);
-
     return (
 		<View style={styles.container}>
 		<FlatList data={sortedPosts} 
         renderItem={({item}) => {
-			const { id, title, body, userName, company, userPhotos } = item;
+			const { id, title, body, userName, company } = item;
 		  return (
-	          //<a  className="list-group-item list-group-item-action list-group-item-light mb-3 rounded border border-secondary">
-				//{(userPhotos && userPhotos.length != 0) ? (<Image className='rounded' src={`${userPhotos[0].thumbnailUrl}`}></Image>): null}
 				<View key={id} style={styles.item}>
-				<Text className="text-dark" >{userName}</Text>
-				<Text className="strong m-1">{company}</Text>
-		       <Text className="text-bold" >{title}</Text>
-			   <Text className="text-dark" >{body}</Text>
+				<Text style={styles.userName} >{userName}</Text>
+				<Text style={styles.company}>{company}</Text>
+		       <Text style={styles.title} >{title}</Text>
+			   <Text style={styles.body} >{body}</Text>
 			   </View>
-		      //</a>
 		  )}
 		}>
         </FlatList>
@@ -83,7 +63,23 @@ const styles = StyleSheet.create({
 	},
 	item: {
 	  padding: 10,
-	  fontSize: 18,
+	  marginBottom: 10,
+	  borderRadius: 15,
+      backgroundColor: '#DCDCDC',
 	},
+	userName: {
+	  fontSize: 20,
+	  fontWeight: 'bold',
+	},
+	company: {
+	  fontSize: 16,
+	},
+	title: {
+	  fontSize: 22,
+	  fontWeight: 'bold',
+	},
+	body: {
+	  fontSize: 18,
+	}
   });
 export default PostsList
